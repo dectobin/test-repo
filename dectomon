@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+COMPOSE_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+if ! docker ps --format '{{.Names}}' | grep -q '^dectomon$'; then
+    echo "Starting Dectomon..."
+    docker compose -f "$COMPOSE_DIR/docker-compose.yml" up -d --build
+    echo "Waiting for Dectomon to start..."
+    sleep 2
+else
+    echo "Dectomon is already running."
+fi
+
+echo "Opening dashboard at http://localhost:61208"
+xdg-open "http://localhost:61208" 2>/dev/null || echo "Visit http://localhost:61208 in your browser."

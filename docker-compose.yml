@@ -1,0 +1,12 @@
+services:
+  dectomon:
+    build: .
+    container_name: dectomon
+    pid: host
+    restart: unless-stopped
+    ports:
+      - "61208:61208"
+    volumes:
+      - /proc:/proc:ro
+      - /sys:/sys:ro
+      - /etc/os-release:/etc/os-release:ro
