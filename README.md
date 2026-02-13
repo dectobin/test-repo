@@ -6,18 +6,20 @@ Built on [Glances](https://nicolargo.github.io/glances/) — monitors CPU, memor
 
 ## Prerequisites
 
-- Docker
-- Docker Compose
+- [Docker](https://docs.docker.com/get-docker/) (with Docker Compose)
 
 ## Install
 
 ```bash
 git clone https://github.com/dectobin/test-repo.git && cd test-repo
-chmod +x install.sh dectomon
+chmod +x install.sh
 ./install.sh
 ```
 
-This builds the Docker image and copies the `dectomon` command to `/usr/local/bin/`.
+The install script will:
+1. Verify Docker and Docker Compose are installed and running
+2. Build the Dectomon Docker image
+3. Install the `dectomon` command to `/usr/local/bin/` (requires sudo)
 
 ## Usage
 
@@ -25,15 +27,19 @@ This builds the Docker image and copies the `dectomon` command to `/usr/local/bi
 dectomon
 ```
 
-This starts the container (if not already running) and opens the dashboard in your browser.
+This starts the monitor container and opens the dashboard in your browser at [http://localhost:61208](http://localhost:61208).
 
-### Manual access
-
-Visit [http://localhost:61208](http://localhost:61208) in your browser.
+If the container is already running, it skips startup and opens the dashboard directly.
 
 ## Stop / Remove
 
 ```bash
-docker compose down        # stop the container
-docker compose down --rmi all  # stop and remove the image
+# Stop the container
+docker compose -f /path/to/test-repo/docker-compose.yml down
+
+# Stop and remove the image
+docker compose -f /path/to/test-repo/docker-compose.yml down --rmi all
+
+# Uninstall the CLI command
+sudo rm /usr/local/bin/dectomon
 ```
