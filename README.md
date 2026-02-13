@@ -12,7 +12,7 @@ Built on [Glances](https://nicolargo.github.io/glances/) — monitors CPU, memor
 ## Install
 
 ```bash
-git clone <repo-url> && cd test-repo
+git clone https://github.com/dectobin/test-repo.git && cd test-repo
 chmod +x install.sh dectomon
 ./install.sh
 ```
