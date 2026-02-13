@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+COMPOSE_FILE="$SCRIPT_DIR/docker-compose.yml"
+
+echo "=== Dectomon Removal ==="
+echo ""
+
+# Stop and remove the container and image
+if docker ps -a --format '{{.Names}}' | grep -q '^dectomon$'; then
+    echo "Stopping and removing Dectomon container and image..."
+    docker compose -f "$COMPOSE_FILE" down --rmi all
+else
+    echo "No running Dectomon container found."
+    # Still attempt to remove the image if it exists
+    if docker images --format '{{.Repository}}' | grep -q 'dectomon'; then
+        echo "Removing Dectomon image..."
+        docker compose -f "$COMPOSE_FILE" down --rmi all 2>/dev/null || true
+    fi
+fi
+
+# Remove the CLI command
+if [ -f /usr/local/bin/dectomon ]; then
+    echo "Removing dectomon command from /usr/local/bin/..."
+    sudo rm /usr/local/bin/dectomon
+else
+    echo "No dectomon command found in /usr/local/bin/."
+fi
+
+echo ""
+echo "=== Removal complete ==="
+echo "Dectomon has been fully removed. Run ./install.sh to reinstall."
