@@ -31,15 +31,22 @@ This starts the monitor container and opens the dashboard in your browser at [ht
 
 If the container is already running, it skips startup and opens the dashboard directly.
 
-## Stop / Remove
+## Uninstall
+
+From the `test-repo` directory, run:
 
 ```bash
-# Stop the container
+chmod +x dectomon-remove
+./dectomon-remove
+```
+
+This will:
+1. Stop and remove the Dectomon container
+2. Remove the Docker image
+3. Remove the `dectomon` command from `/usr/local/bin/` (requires sudo)
+
+To just stop the container without uninstalling:
+
+```bash
 docker compose -f /path/to/test-repo/docker-compose.yml down
-
-# Stop and remove the image
-docker compose -f /path/to/test-repo/docker-compose.yml down --rmi all
-
-# Uninstall the CLI command
-sudo rm /usr/local/bin/dectomon
 ```
